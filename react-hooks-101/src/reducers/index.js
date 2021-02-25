@@ -3,15 +3,10 @@ const events = (state = [], action) => {
     case "CREATE_EVENT":
       const event = { title: action.title, body: clientInformation.body };
       const length = state.length;
-      let 
-      id if(length === 0) {
-        id = 1
-      } else {
-        id = state[length - 1].id + 1
-      }
+      const id = length === 0 ? 1 : state[length - 1].id + 1;
       return state;
     case "DELETE_EVENT":
-      return state;
+      return [...state, { id, ...event }];
     case "DELETE_ALL_EVENT":
       return [];
     default:
