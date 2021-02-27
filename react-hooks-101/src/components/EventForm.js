@@ -1,25 +1,31 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { CREATE_EVENT, DELETE_ALL_EVENTS } from "../actions";
+import AppContext from "../contexts/AppContext";
 
-const EventForm = ({ state, dispatch }) => {
+const EventForm = () => {
+  const { state, dispatch } = useContext(AppContext);
   const [title, setTitle] = useState("");
-  const [body, setbody] = useState("");
+  const [body, setBody] = useState("");
 
   const addEvent = (e) => {
     e.preventDefault();
+
     dispatch({
       type: CREATE_EVENT,
       title,
       body,
     });
+
     setTitle("");
-    setbody("");
+    setBody("");
   };
 
   const deleteAllEvents = (e) => {
     e.preventDefault();
-    const result = window.confirm("全てのイベントを元に戻しても良いですか？");
+    const result = window.confirm(
+      "全てのイベントを本当に削除しても良いですか？"
+    );
     if (result) dispatch({ type: DELETE_ALL_EVENTS });
   };
 
@@ -38,6 +44,7 @@ const EventForm = ({ state, dispatch }) => {
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="formEventBody">ボディー</label>
           <textarea
@@ -45,9 +52,10 @@ const EventForm = ({ state, dispatch }) => {
             id="formEventBody"
             style={{ resize: "none" }}
             value={body}
-            onChange={(e) => setbody(e.target.value)}
+            onChange={(e) => setBody(e.target.value)}
           />
         </div>
+
         <button
           className="btn btn-primary"
           onClick={addEvent}
